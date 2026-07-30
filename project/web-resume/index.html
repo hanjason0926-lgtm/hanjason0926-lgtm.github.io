@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jason Han 韓先勇 — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F4F1EA;
+    --paper:#F6F3ED;
+    --ink:#1B1B1A;
+    --red:#C0392B;
+    --muted:#9b968c;      /* small labels */
+    --body:#5c584f;       /* secondary body text */
+    --line:#dad6cc;       /* dividers */
+    --line-soft:#e4e0d6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;scroll-behavior:smooth}
+  body{
+    background:var(--cream);
+    color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+    line-height:1.5;
+  }
+  .page{
+    max-width:1440px;
+    margin:0 auto;
+    background:var(--cream);
+    border:1px solid var(--line-soft);
+  }
+
+  /* ---------- shared label component ---------- */
+  .secnum{display:flex;flex-direction:column;gap:5px;margin-bottom:2px}
+  .secnum b{font-size:13px;font-weight:600;color:var(--ink);letter-spacing:.01em}
+  .secnum span{font-size:11px;font-weight:600;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
+  .secnum i{display:block;width:22px;height:1px;background:var(--ink);margin-top:6px}
+
+  .lbl{font-size:10px;font-weight:600;letter-spacing:.16em;color:var(--muted);text-transform:uppercase}
+
+  /* ---------- NAV + HERO ---------- */
+  .hero{display:grid;grid-template-columns:53% 47%}
+  .hero-left{display:flex;flex-direction:column;padding:34px 44px 40px 48px}
+
+  .nav{display:flex;align-items:center;margin-bottom:60px}
+  .nav .lang{margin-left:auto;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:6px 13px;border-radius:999px;transition:background .2s,color .2s}
+  .nav .lang:hover{background:var(--ink);color:#fff}
+  .brand{font-size:20px;font-weight:800;letter-spacing:.02em}
+  .nav-links{display:flex;gap:34px;margin-left:78px}
+  .nav-links a{
+    position:relative;font-size:11px;font-weight:600;letter-spacing:.15em;
+    text-transform:uppercase;color:#4a463f;text-decoration:none;padding-bottom:14px;
+  }
+  .nav-links a.active{color:var(--ink)}
+  .nav-links a.active::after{
+    content:"";position:absolute;left:50%;transform:translateX(-50%);bottom:3px;
+    width:5px;height:5px;border-radius:50%;background:var(--red);
+  }
+
+  .hero-body{display:grid;grid-template-columns:1fr 158px;flex:1}
+  .hero-main{padding-right:38px;display:flex;flex-direction:column}
+
+  .hero-tag{margin-bottom:26px}
+  .display{
+    font-size:135px;font-weight:900;line-height:.86;letter-spacing:-.035em;
+    color:var(--ink);margin:2px 0 22px;
+  }
+  .role{font-size:22px;font-weight:600;line-height:1.32;letter-spacing:-.01em;margin-bottom:20px}
+  .role .s{color:var(--red);font-weight:600;margin:0 2px}
+  .lead{font-size:15px;line-height:1.62;color:var(--body);max-width:320px;margin-bottom:auto}
+
+  .cta{display:flex;align-items:center;gap:30px;margin-top:44px}
+  /* ---- Shimmer / Interactive Hover button (Magic UI-inspired) ---- */
+  .btn-red{
+    position:relative;overflow:hidden;isolation:isolate;
+    display:inline-flex;align-items:center;gap:0;
+    background:var(--red);color:#fff;font-size:12px;font-weight:700;
+    letter-spacing:.13em;text-transform:uppercase;text-decoration:none;padding:15px 26px;
+    transition:transform .28s cubic-bezier(.22,1,.36,1),box-shadow .28s cubic-bezier(.22,1,.36,1);
+    will-change:transform;
+  }
+  /* looping diagonal shine sweep */
+  .btn-red::before{
+    content:"";position:absolute;top:0;left:-140%;width:60%;height:100%;z-index:1;
+    background:linear-gradient(115deg,transparent 0%,rgba(255,255,255,.0) 25%,rgba(255,255,255,.55) 50%,rgba(255,255,255,.0) 75%,transparent 100%);
+    transform:skewX(-18deg);
+    animation:btnShine 3.4s ease-in-out infinite;
+  }
+  @keyframes btnShine{
+    0%{left:-140%}
+    55%,100%{left:160%}
+  }
+  .btn-red .btn-label{position:relative;z-index:2;display:inline-block}
+  .btn-red .btn-arrow{
+    position:relative;z-index:2;width:0;height:12px;margin-left:0;overflow:hidden;
+    display:inline-flex;align-items:center;opacity:0;transform:translateX(-4px);
+    transition:width .28s cubic-bezier(.22,1,.36,1),opacity .28s ease,margin-left .28s ease,transform .28s cubic-bezier(.22,1,.36,1);
+  }
+  .btn-red .btn-arrow svg{width:14px;height:14px;flex:none}
+  .btn-red:hover,.btn-red:focus-visible{
+    transform:translateY(-2px);
+    box-shadow:0 10px 24px -8px rgba(192,57,43,.55);outline:none;
+  }
+  .btn-red:hover .btn-arrow,.btn-red:focus-visible .btn-arrow{
+    width:16px;margin-left:9px;opacity:1;transform:translateX(0);
+  }
+  @media (prefers-reduced-motion:reduce){
+    .btn-red::before{animation:none;display:none}
+    .btn-red,.btn-red .btn-arrow{transition:none}
+  }
+  .btn-text{
+    display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;
+    letter-spacing:.13em;text-transform:uppercase;color:var(--ink);text-decoration:none;
+    border-bottom:1px solid var(--ink);padding-bottom:6px;
+  }
+  .btn-text svg{width:12px;height:12px}
+
+  /* meta sidebar */
+  .hero-meta{border-left:1px solid var(--line);padding:6px 0 0 26px;display:flex;flex-direction:column}
+  .meta-block{margin-bottom:26px}
+  .meta-block .lbl{display:block;margin-bottom:7px}
+  .meta-block .val{font-size:14px;font-weight:500;color:var(--ink);line-height:1.4}
+  .exp-num{margin-top:auto}
+  .exp-num .big{font-size:58px;font-weight:700;color:var(--red);line-height:.9;letter-spacing:-.02em}
+  .exp-num .lbl{display:block;margin-top:8px;line-height:1.4}
+
+  /* hero image */
+  .hero-img{position:relative;overflow:hidden;background:#111;min-height:512px}
+  .hero-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.02)}
+  .quote{
+    position:absolute;top:34px;right:34px;width:132px;text-align:left;
+    font-size:12.5px;line-height:1.5;font-weight:500;color:#f2efe7;
+    text-shadow:0 1px 8px rgba(0,0,0,.45);
+  }
+  .imgmark{position:absolute;top:170px;right:34px;text-align:right;font-size:13px;font-weight:600;color:#f2efe7;text-shadow:0 1px 8px rgba(0,0,0,.45)}
+  .imgmark .r{width:60px;height:1px;background:#f2efe7;margin:0 0 10px auto}
+  .redsq{position:absolute;bottom:28px;right:28px;width:42px;height:42px;background:var(--red)}
+
+  /* ---------- LOWER GRID ---------- */
+  .grid{
+    display:grid;grid-template-columns:1.15fr 1.5fr 2.2fr 2.35fr;
+    padding:38px 48px 46px;border-top:1px solid var(--line);
+  }
+  .col{padding:0 30px}
+  .col:first-child{padding-left:0}
+  .col:last-child{padding-right:0}
+  .col+.col{border-left:1px solid var(--line)}
+
+  .col p.lead{font-size:13px;line-height:1.65;color:var(--body);max-width:none;margin:22px 0 0}
+
+  .edu{margin-top:30px}
+  .edu .lbl{display:block;margin-bottom:12px}
+  .edu .val{font-size:13px;line-height:1.65;color:var(--body)}
+  .edu .val .dim{display:block;margin-top:9px;font-size:12px;font-weight:500;color:var(--muted)}
+  .socials{display:flex;gap:16px;margin-top:34px}
+  .socials a{color:var(--ink);display:inline-flex}
+  .socials svg{width:19px;height:19px}
+
+  /* experience */
+  .exp{padding:16px 0;border-top:1px solid var(--line-soft)}
+  .exp:first-of-type{margin-top:22px}
+  .exp .date{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.03em;margin-bottom:6px;white-space:nowrap}
+  .exp h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:2px}
+  .exp .org{font-size:12px;font-weight:600;color:#6f6a60;margin-bottom:9px}
+  .exp .desc{font-size:12px;line-height:1.55;color:var(--body)}
+
+  /* skills — outlined pills */
+  .skgroup{margin-top:16px}
+  .skgroup:first-of-type{margin-top:18px}
+  .skgroup .lbl{display:block;margin-bottom:10px}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips span{border:1px solid var(--ink);color:var(--ink);font-size:12px;font-weight:600;padding:6px 12px;border-radius:999px;white-space:nowrap}
+
+  /* projects */
+  .proj{display:grid;grid-template-columns:66px 1fr;gap:18px;padding:16px 0;align-items:start}
+  .proj:first-of-type{padding-top:22px}
+  .proj img{width:66px;height:66px;object-fit:cover;filter:grayscale(1) contrast(1.05)}
+  .proj .thumb{width:66px;height:66px;border:1px solid var(--line);background:#edeae1;display:flex;align-items:center;justify-content:center;color:var(--ink);flex:none}
+  .proj .thumb svg{width:30px;height:30px}
+  .proj h4{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:6px}
+  .proj .desc{font-size:12px;line-height:1.5;color:var(--body);margin-bottom:12px}
+  .proj .view{display:inline-flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .2s,gap .2s}
+  .proj .view:hover{color:var(--red);gap:11px}
+  .proj .view svg{width:11px;height:11px}
+
+  /* ---------- FOOTER ---------- */
+  .footer{display:flex;align-items:center;gap:0;padding:26px 48px;border-top:1px solid var(--line)}
+  .footer .secnum{margin-bottom:0;margin-right:64px}
+  .footer .secnum i{display:none}
+  .contact{margin-right:54px}
+  .contact .top{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .contact .top svg{width:14px;height:14px;color:var(--ink)}
+  .contact .val{font-size:13px;color:var(--ink)}
+  .tagline{font-size:14px;line-height:1.45;color:var(--ink);margin-left:20px}
+  .foot-sq{
+    margin-left:auto;width:74px;height:74px;background:var(--red);color:#fff;
+    display:flex;align-items:center;justify-content:center;text-decoration:none;
+  }
+  .foot-sq svg{width:28px;height:28px}
+
+  @media (max-width:900px){
+    .hero{grid-template-columns:1fr}
+    .hero-img{min-height:360px}
+    .grid{grid-template-columns:1fr}
+    .col{padding:26px 0;border-left:none!important;border-top:1px solid var(--line)}
+    .col:first-child{border-top:none}
+    .display{font-size:88px}
+    .footer{flex-wrap:wrap;gap:22px}
+    .foot-sq{margin-left:0}
+  }
+  /* hero name override - variant 08 */  .display{font-family:"Noto Sans TC",sans-serif;font-size:100px;font-weight:900;line-height:1;letter-spacing:.02em;margin:2px 0 22px;display:flex;align-items:baseline;gap:16px;flex-wrap:wrap} .display small{font-family:"Inter",sans-serif;font-size:34px;font-weight:800;letter-spacing:-.01em;color:var(--muted)}
+
+  /* ---------- PROJECT DETAILS ---------- */
+  .work{border-top:1px solid var(--line)}
+  .work-inner{max-width:1200px;margin:0 auto;padding:46px 48px 26px}
+  .work-sub{font-size:14px;line-height:1.6;color:var(--body);max-width:560px;margin-top:14px}
+  .cases{display:grid;grid-template-columns:1fr 1fr;gap:40px 46px;align-items:start;margin-top:26px}
+  .case .eyebrow{display:flex;align-items:baseline;gap:10px;margin-bottom:9px}
+  .case .eyebrow b{font-size:13px;font-weight:800;color:var(--red)}
+  .case .eyebrow span{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .case h2{font-size:22px;font-weight:900;letter-spacing:-.02em;line-height:1.15;margin-bottom:6px}
+  .case .role{font-size:13px;font-weight:600;color:var(--body);margin-bottom:16px}
+  .case .role .s{color:var(--red);margin:0 5px}
+  .shots{margin:0 0 16px;display:grid;gap:10px}
+  .shots.one{grid-template-columns:1fr}
+  .shots.two{grid-template-columns:1fr 1fr}
+  .shots figure{margin:0;border:1px solid var(--line);background:#fff;overflow:hidden}
+  .shots.one figure{aspect-ratio:16/9}
+  .shots.two figure{aspect-ratio:4/3}
+  .shots img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
+  .case .body p{font-size:13px;line-height:1.75;color:#3f3b34;margin-bottom:11px}
+  .case .body p b{font-weight:700;color:var(--ink)}
+  .case .stack{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+  .case .stack span{border:1px solid var(--ink);color:var(--ink);font-size:11px;font-weight:600;padding:5px 10px;border-radius:999px;white-space:nowrap}
+  @media (max-width:900px){.work-inner{padding:36px 24px}.cases{grid-template-columns:1fr;gap:36px}}
+
+  /* colophon card */
+  .colo{border:1px dashed var(--muted);padding:24px 24px 26px;background:#f6f3ed;align-self:start}
+  .colo-cta{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;padding:11px 20px;margin:0 0 20px;transition:transform .2s,box-shadow .2s,gap .2s}
+  .colo-cta:hover{transform:translateY(-2px);box-shadow:0 9px 22px -8px rgba(192,57,43,.6);gap:12px}
+  .colo-cta svg{width:15px;height:15px}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="hero-left">
+      <nav class="nav">
+        <div class="brand">Jason Han</div>
+        <div class="nav-links">
+          <a href="#profile" class="active">Profile</a>
+          <a href="#experience">Experience</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <a href="en.html" class="lang">EN</a>
+      </nav>
+
+      <div class="hero-body">
+        <div class="hero-main">
+          <div class="secnum hero-tag"><b>01</b><span>Portfolio</span><i></i></div>
+
+          <h1 class="display">韓先勇<small>Jason Han</small></h1>
+
+          <div class="role">
+            Data Engineer <span class="s">/</span> Automation Builder <span class="s">/</span><br>
+            AI Workflow Designer.
+          </div>
+
+          <p class="lead">我打造能把複雜化為清晰的資料系統與智慧工作流，專注於自動化、可擴展性，以及真正有意義的影響。</p>
+
+          <div class="cta">
+            <a href="#projects" class="btn-red">
+              <span class="btn-label">View My Work</span>
+              <span class="btn-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h13M12 5l7 7-7 7"/></svg></span>
+            </a>
+            <a href="#" class="btn-text" onclick="window.print();return false;">Download Resume
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <aside class="hero-meta">
+          <div class="meta-block">
+            <span class="lbl">Based in</span>
+            <div class="val">New Taipei City, Taiwan</div>
+          </div>
+          <div class="meta-block">
+            <span class="lbl">Available for</span>
+            <div class="val">Full-time</div>
+          </div>
+          <div class="meta-block">
+            <span class="lbl">Status</span>
+            <div class="val">Employed</div>
+          </div>
+          <div class="exp-num">
+            <div class="big">05</div>
+            <span class="lbl">Years of<br>Experience</span>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <div class="hero-img">
+      <img src="resume_photo.png" alt="Portrait of Jason Han 韓先勇">
+      <div class="quote">Good systems don't just process data. They unlock possibility.</div>
+      <div class="imgmark"><span class="r"></span>Jason Han / 韓先勇</div>
+    </div>
+  </section>
+
+  <!-- ================= GRID ================= -->
+  <section class="grid">
+
+    <!-- 02 PROFILE -->
+    <div class="col" id="profile">
+      <div class="secnum"><b>02</b><span>Profile</span><i></i></div>
+      <p class="lead">資料工程師暨自動化建構者，擁有 5 年以上經驗，專精於設計資料管線、分析解決方案與 AI 驅動的工作流。協助團隊更快行動，並以乾淨的資料與智慧系統做出更明智的決策。</p>
+      <div class="edu">
+        <span class="lbl">Education</span>
+        <div class="val">逢甲大學<br>機械與電腦輔助工程系<span class="dim">2008.08 – 2012.06</span></div>
+      </div>
+      <div class="socials">
+        <a href="https://github.com/hanjason0926-lgtm" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.2 1.77 1.2 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11 11 0 0 1 5.8 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.41-5.26 5.69.41.36.78 1.05.78 2.12v3.14c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg></a>
+        <a href="https://www.linkedin.com/in/%E5%85%88%E5%8B%87-%E9%9F%93-08942010a/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.2.8 24 1.77 24h20.45c.98 0 1.78-.8 1.78-1.75V1.75C24 .78 23.2 0 22.22 0z"/></svg></a>
+        <a href="mailto:hanjason0926@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="4.5" width="19" height="15" rx="1.5"/><path d="M3 6l9 6.5L21 6"/></svg></a>
+      </div>
+    </div>
+
+    <!-- 03 EXPERIENCE -->
+    <div class="col" id="experience">
+      <div class="secnum"><b>03</b><span>Experience</span><i></i></div>
+
+      <div class="exp">
+        <div class="date">2023.02 – Present</div>
+        <div>
+          <h4>資料工程師</h4>
+          <div class="org">康迅數位整合股份有限公司</div>
+          <div class="desc">規劃並建置數據平台、資料倉儲與自動化資料管線，主導內部資料系統優化及 CRM／CDP／DMP 外部專案，推動 AI 與數據應用落地，支援精準行銷與營運決策。</div>
+        </div>
+      </div>
+
+      <div class="exp">
+        <div class="date">2020.10 – 2023.01</div>
+        <div>
+          <h4>數據分析師</h4>
+          <div class="org">合邦商網股份有限公司</div>
+          <div class="desc">開發資料管線、優化資料品質流程與 OLAP 分析模型，並為關鍵利害關係人交付商業智慧報表。</div>
+        </div>
+      </div>
+
+      <div class="exp">
+        <div class="date">2016.12 – 2020.02</div>
+        <div>
+          <h4>專案工程師</h4>
+          <div class="org">美商傑明工程顧問（台灣分公司）</div>
+          <div class="desc">整合公共工程專案資料，建立資料處理流程，並產出視覺化成果與研究報告。</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 SKILLS -->
+    <div class="col" id="skills">
+      <div class="secnum"><b>04</b><span>Skills</span><i></i></div>
+
+      <div class="skgroup">
+        <span class="lbl">Data Engineering</span>
+        <div class="chips"><span>Python</span><span>SQL</span><span>Apache Airflow</span><span>SSIS</span><span>ETL / ELT</span><span>Parquet</span><span>Dremio</span></div>
+      </div>
+
+      <div class="skgroup">
+        <span class="lbl">Databases</span>
+        <div class="chips"><span>Microsoft SQL Server</span><span>PostgreSQL</span><span>MongoDB</span><span>Oracle</span><span>StarRocks</span><span>SSAS</span></div>
+      </div>
+
+      <div class="skgroup">
+        <span class="lbl">Cloud</span>
+        <div class="chips"><span>GCP</span><span>BigQuery</span><span>Cloud Data Fusion</span></div>
+      </div>
+
+      <div class="skgroup">
+        <span class="lbl">BI &amp; Tracking</span>
+        <div class="chips"><span>Power BI</span><span>Looker Studio</span><span>Metabase</span><span>GA4</span><span>Google Tag Manager</span></div>
+      </div>
+
+      <div class="skgroup">
+        <span class="lbl">AI / LLM</span>
+        <div class="chips"><span>Claude Agent SDK</span><span>MCP</span><span>LangChain</span><span>Ollama</span><span>Vector Databases</span></div>
+      </div>
+
+      <div class="skgroup">
+        <span class="lbl">DevOps &amp; Tools</span>
+        <div class="chips"><span>Git</span><span>Docker</span><span>Linux</span></div>
+      </div>
+    </div>
+
+    <!-- 05 SELECTED PROJECTS -->
+    <div class="col" id="projects">
+      <div class="secnum"><b>05</b><span>Selected Projects</span><i></i></div>
+
+      <div class="proj">
+        <div class="thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H18.5v15H7A2 2 0 0 0 5 20z"/><path d="M5 20a2 2 0 0 0 2 1h11.5"/><path d="M9 7.5h6M9 10.5h4"/></svg></div>
+        <div>
+          <h4>業務部門 AI 知識庫</h4>
+          <div class="desc">協助業務部門打造內部知識庫，整合分散文件與資料，加速團隊查詢與應用。</div>
+          <a href="#case-01" class="view">View Project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="6" cy="6.5" r="2.1"/><circle cx="18" cy="6.5" r="2.1"/><circle cx="12" cy="17.5" r="2.1"/><path d="M7.9 7.6l3 8M16.1 7.6l-3 8M8.1 6.5h7.8"/></svg></div>
+        <div>
+          <h4>CRM · CDP · DMP 數據架構</h4>
+          <div class="desc">為企業客戶的 CRM、CDP、DMP 專案規劃底層數據架構與數據呈現，設計資料模型與整合流程。</div>
+          <a href="#case-02" class="view">View Project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V9z"/><path d="M13 3v6h6"/><path d="M8.5 13.5l.8 1.9 1.9.8-1.9.8-.8 1.9-.8-1.9-1.9-.8 1.9-.8z"/></svg></div>
+        <div>
+          <h4>AEO 部落格自動產生系統</h4>
+          <div class="desc">打造 AEO 部落格自動產生系統，從內容生成到 HTML／JSON-LD 自動產出與上架。</div>
+          <a href="#case-03" class="view">View Project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9a1.5 1.5 0 0 1-1.5 1.5H9l-4 4v-4H5.5A1.5 1.5 0 0 1 4 14.5z"/><path d="M8.5 9.5h7M8.5 12h4"/></svg></div>
+        <div>
+          <h4>LINE Bot 後台系統</h4>
+          <div class="desc">從零打造 LINE Bot 系統與管理後台（Django／NGINX），支援規則引擎、個人化回應與對話語意分析。</div>
+          <a href="#case-04" class="view">View Project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="proj">
+        <div class="thumb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4v16h16"/><path d="M7 14.5l3.5-4 3 2.5L20 6.5"/></svg></div>
+        <div>
+          <h4>政府數據研究專案</h4>
+          <div class="desc">獨立主導 300 萬元政府委託研究標案，以 SQL Server 建立資料流程並用迴歸模型推估關鍵參數，成果典藏國家圖書館。</div>
+          <a href="#case-05" class="view">View Project
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ================= CASE STUDIES ================= -->
+  <section class="work" id="work">
+    <div class="work-inner">
+      <div class="secnum"><b>06</b><span>Project Details</span><i></i></div>
+      <p class="work-sub">五個代表性專案的深入說明，涵蓋數據平台架構、AI 應用落地、系統從零建置與政府研究。</p>
+
+      <div class="cases">
+      <article class="case" id="case-01">
+        <div class="eyebrow"><b>01</b><span>AI Knowledge Base</span></div>
+        <h2>業務部門 AI 知識庫</h2>
+        <div class="role">內部專案 <span class="s">/</span> 規劃與開發</div>
+        <div class="shots one"><figure><img src="assets/knowledge-base.png" alt="AI Knowledge Base UI"></figure></div>
+        <div class="body">
+          <p>業務部門面對大量分散的文件、報告與資料，查找耗時、也難以重複利用。我打造一套以 AI Agent 為核心的知識庫，讓團隊能以自然語言查詢，快速取得<b>摘要、來源與相關內容</b>，把分散的知識整合成可即時檢索、可引用的資產。</p>
+          <p>系統會針對上傳的文件自動生成摘要與分類，並保留來源可追溯，讓業務在面對客戶問題時能即時找到依據，而不必再翻遍雲端硬碟與歷史檔案。</p>
+        </div>
+        <div class="stack"><span>Python</span><span>LLM</span><span>AI Agent</span><span>Claude Agent SDK</span></div>
+      </article>
+
+      <article class="case" id="case-02">
+        <div class="eyebrow"><b>02</b><span>CRM · CDP · DMP Data Architecture</span></div>
+        <h2>客戶數據平台・數據架構</h2>
+        <div class="role">企業客戶外部專案 <span class="s">/</span> 底層數據架構與數據呈現</div>
+        <div class="shots one"><figure><img src="assets/cdp-platform.png" alt="CDP system"></figure></div>
+        <div class="body">
+          <p>外部專案最常見的痛點，是系統要上線了，資料卻還停留在分散、欄位定義不一致、報表只能人工整理的狀態。我先後參與 <b>CRM、CDP、DMP</b> 三類專案，負責制定數據架構，從管理報表與觀察需求回推資料模型，規劃欄位對應、篩選邏輯、指標定義與日排程資料流程。</p>
+          <p><b>CRM</b>：將原本依賴多份 Google 表單、資訊分散的作業，轉為可管理的資料架構。<b>CDP</b>：規劃跨系統客戶資料整合與特徵欄位設計，支援後續分群與預測模型。<b>DMP</b>：制定 Data Lake、Data Warehouse 與 Data Mart 分層，依需求設計 Star / Snowflake Schema，並支援 Power BI 儀表板所需的資料模型。</p>
+          <p>在雲端資料整合上，運用 <b>Google Cloud Data Fusion</b> 建立跨來源的資料融合（data fusion）管線，並以 <b>BigQuery</b> 作為雲端資料倉儲，支撐大規模資料的儲存、查詢與分析。</p>
+        </div>
+        <div class="stack"><span>SQL</span><span>Data Modeling</span><span>Star / Snowflake Schema</span><span>Data Lake</span><span>ETL</span><span>Cloud Data Fusion</span><span>BigQuery</span><span>GCP</span><span>Power BI</span></div>
+      </article>
+
+      <article class="case" id="case-03">
+        <div class="eyebrow"><b>03</b><span>AEO Content Automation</span></div>
+        <h2>AEO 部落格自動產生系統</h2>
+        <div class="role">內部專案 <span class="s">/</span> 從零設計與建置</div>
+        <div class="shots one"><figure><img src="assets/aeo-blog.png" alt="AEO generated blog article"></figure></div>
+        <div class="body">
+          <p>在缺乏前後端資源的情況下，公司希望經營 AI 搜尋曝光與品牌內容，卻難以穩定產出可被搜尋與引用的頁面。我以 <b>agent skills</b> 建立一套 AEO 內容自動化流程：從網路蒐集高關注議題、轉寫文章，到以 Python 自動轉為 <b>HTML 與 JSON-LD</b>，並串接既有 FTP 成站機制完成自動上架。</p>
+          <p>最終讓公司在低開發資源下，仍能持續產出可被 AI 搜尋、理解與引用的內容頁面，實際提升品牌內容的可見度與擴充效率。</p>
+        </div>
+        <div class="stack"><span>Python</span><span>AI Agent</span><span>LLM</span><span>JSON-LD</span><span>HTML</span><span>FTP</span></div>
+      </article>
+
+      <article class="case" id="case-04">
+        <div class="eyebrow"><b>04</b><span>Backend · LINE Bot Platform</span></div>
+        <h2>LINE Bot 後台系統</h2>
+        <div class="role">內部專案 <span class="s">/</span> 從零獨立設計與開發</div>
+        <div class="shots two">
+          <figure><img src="assets/linebot-architecture.png" alt="LINE Bot system architecture"></figure>
+          <figure><img src="assets/linebot-admin.png" alt="LINE Bot admin / analysis"></figure>
+        </div>
+        <div class="body">
+          <p>公司當時完全沒有 LINE Bot 系統，客服與用戶互動全靠人工一對一回覆，無法擴張也難以追蹤。我<b>從無到有獨立設計並開發整套系統</b>：資料模型、訊息回覆規則引擎、<b>Django + NGINX</b> 部署架構，以及串接訂單與會員資料的個人化回應機制。管理後台讓客服與行銷可自行設定關鍵字觸發規則與回覆內容，不需每次找工程師改程式；並另建供應商評價雷達圖查詢站台，支援採購部門的評比決策。</p>
+          <p><b>語意分析｜從 LINE 對話中找規律：</b>客服累積大量對話紀錄，卻充滿錯字與口語縮寫，難以直接分析。我建立一套文本清洗與語意分析流程，以字音轉換修正常見錯字、結巴分詞加詞性標註過濾停用詞，最後輸出週期性詞頻統計與主題分群報告，整個流程容器化後可定期自動執行。客服團隊第一次拿到「用戶最常問的 Top 20 問題」清單，能有依據地調整常見問題區與 Bot 預設回應。</p>
+        </div>
+        <div class="stack"><span>Python</span><span>Django</span><span>NGINX</span><span>Docker</span><span>jieba</span><span>MSSQL</span><span>PostgreSQL</span><span>MongoDB</span><span>Redis</span><span>LINE Messaging API</span></div>
+      </article>
+
+      <article class="case" id="case-05">
+        <div class="eyebrow"><b>05</b><span>Government Data Research</span></div>
+        <h2>政府數據研究專案</h2>
+        <div class="role">政府委託研究標案 <span class="s">/</span> 主承辦・獨立主導</div>
+        <div class="shots two">
+          <figure><img src="assets/gov-research-1.png" alt="Regression analysis charts"></figure>
+          <figure><img src="assets/gov-research-2.png" alt="Data analysis detail"></figure>
+        </div>
+        <div class="body">
+          <p>獨立主導一項 <b>300 萬元政府委託研究標案</b>，身為主承辦負責全案數據分析與報告撰寫。以 <b>SQL Server</b> 建立批次匯入與標準化儲存流程，搭配 <b>Python</b> 自動篩除極端異常值，並運用<b>多項式與指數迴歸模型</b>推估無法直接量測的關鍵參數，將複雜問題轉化為可供政策引用的定量結論。</p>
+          <p>研究成果正式<b>典藏於國家圖書館</b>，為相關管理制度提供具方法論基礎的改革依據。</p>
+        </div>
+        <div class="stack"><span>SQL Server</span><span>Python</span><span>迴歸分析</span><span>Data Modeling</span></div>
+      </article>
+
+      <article class="case colo">
+        <div class="eyebrow"><b>✦</b><span>Colophon · This Site</span></div>
+        <h2>會動的網頁履歷</h2>
+        <div class="role">Side Project <span class="s">/</span> 前端・捲動動態</div>
+        <a class="colo-cta" href="https://hanjason0926-lgtm.github.io/project/web-resume-motion/" target="_blank" rel="noopener">點此查看
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+        </a>
+        <div class="body">
+          <p>除了這份履歷，我另做了一版<b>隨捲動即時變形的動態網頁履歷</b>，整頁由一支影片驅動，滑動時即時調整縮放、位置、裁切與配色，讓瀏覽像在操控畫面。</p>
+          <p>我想驗證一件事：一個原本不在我專業內的互動效果，能不能靠 AI 從零做出來。答案是可以，概念與設計由我主導，與 <b>Claude</b> 協作完成實作與除錯，並反覆調整到跨裝置都滑順。這也是我日常「用 AI 加速交付」的縮影。</p>
+          <p>成品已上線於 <b>GitHub Pages</b>。</p>
+        </div>
+      </article>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer" id="contact">
+    <div class="secnum"><b>07</b><span>Contact</span></div>
+
+    <div class="contact">
+      <div class="top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="4.5" width="19" height="15" rx="1.5"/><path d="M3 6l9 6.5L21 6"/></svg>
+        <span class="lbl">Email</span>
+      </div>
+      <div class="val">hanjason0926@gmail.com</div>
+    </div>
+
+    <div class="contact">
+      <div class="top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h4l2 5-2.5 1.5a12 12 0 0 0 6 6L15 14l5 2v4a1 1 0 0 1-1.1 1A17 17 0 0 1 3 5.1 1 1 0 0 1 4 4z"/></svg>
+        <span class="lbl">Phone</span>
+      </div>
+      <div class="val">+886 917 238 339</div>
+    </div>
+
+    <div class="contact">
+      <div class="top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+        <span class="lbl">Location</span>
+      </div>
+      <div class="val">New Taipei City, Taiwan</div>
+    </div>
+
+    <div class="tagline">Let's build systems<br>that create real impact.</div>
+
+    <a href="mailto:hanjason0926@gmail.com" class="foot-sq" aria-label="Get in touch">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg>
+    </a>
+  </footer>
+
+</div>
+
+</body>
+</html>
