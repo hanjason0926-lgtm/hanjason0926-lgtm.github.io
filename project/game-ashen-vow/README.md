@@ -21,17 +21,6 @@
 
 畫面右上角可調整音效、全螢幕與畫質。先擊敗四名守衛，再挑戰鹿角王。重新整理 HTML 會回到標題畫面，進度不會存檔。
 
-## 修改原始碼後重新產生 HTML
-
-原始碼仍在 `ashen-vow` 資料夾。開發者安裝依賴後，在該資料夾執行：
-
-```sh
-npm install
-npm run build:offline
-```
-
-產生器會把遊戲程式、Three.js、React、樣式與圖示全部包進上層的 `灰燼誓約.html`。地形、角色、貼圖與音效於本機生成；不會向 CDN 或 localhost 取得素材。
-
 ## One-shot Prompt
 
 > 用 Three.js 從零製作可直接遊玩的精緻 3D 暗黑奇幻動作 RPG：
